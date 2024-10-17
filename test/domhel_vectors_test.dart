@@ -34,7 +34,7 @@ void main() {
     ]);
 
     expect(
-      A.add(B),
+      A + B,
       Matrix(
         [
           [1, 2],
@@ -83,7 +83,7 @@ void main() {
       ],
     );
     expect(
-      C.multiply(D),
+      C * D,
       Matrix(
         [
           [

@@ -50,6 +50,10 @@ extension MatrixOperations on Matrix {
     ]);
   }
 
+  Matrix operator *(Matrix other) {
+    return multiply(other);
+  }
+
   Matrix multiply(Matrix other) {
     assert(dimension[1] == other.dimension[0],
         'inner and outer dimension mismatch');
@@ -59,9 +63,11 @@ extension MatrixOperations on Matrix {
       for (var i = 0; i < value.length; ++i)
         [
           for (var j = 0; j < other.value[0].length; ++j)
-            [for (var a = 0; a < innerDimension; ++a) 
-              value[i][a] * other.value[a][j]].fold(0, (aggr, el) => aggr + el)
-        ]
+            [
+              for (var a = 0; a < innerDimension; ++a)
+                value[i][a] * other.value[a][j]
+            ].fold(0, (aggr, el) => aggr + el),
+        ],
     ]);
   }
 }
