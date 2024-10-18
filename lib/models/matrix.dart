@@ -1,11 +1,22 @@
 typedef Dimension = List<int>;
 
+class DimensionException implements Exception {
+  String? message;
+  DimensionException({this.message});
+}
+
 extension DimensionUtils on Dimension {
   bool equals(Dimension other) =>
       length == other.length &&
       indexed.every((tuple) => tuple.$2 == other[tuple.$1]);
 
   bool get isNotZero => isNotEmpty && every((d) => d > 0);
+}
+
+extension ListMatrixExtension on List<List<num>> {
+  Matrix asMatrix() {
+    return Matrix(this);
+  }
 }
 
 class Matrix {
@@ -34,6 +45,10 @@ class Matrix {
 }
 
 extension MatrixOperations on Matrix {
+  List<num> operator [](int i) {
+    return value[i];
+  }
+
   Matrix operator +(Matrix other) {
     return add(other);
   }
@@ -69,5 +84,37 @@ extension MatrixOperations on Matrix {
             ].fold(0, (aggr, el) => aggr + el),
         ],
     ]);
+  }
+
+  bool get isSquare => dimension[0] == dimension[1];
+
+  Matrix removeColAndRow(int i, int j) {
+    return Matrix(
+      [
+        for (final c in List.generate(dimension[0], (c) => c)..removeAt(i))
+          [
+            for (final r in List.generate(dimension[1], (r) => r)..removeAt(j))
+              value[c][r],
+          ],
+      ],
+    );
+  }
+
+  num det() {
+    assert(dimension.isNotZero);
+    assert(isSquare);
+    if (!isSquare) {
+      throw DimensionException();
+    }
+
+    if (dimension[0] == 2) {
+      return value[0][0] * value[1][1] - value[0][1] * value[1][0];
+    } else {
+      // to be changed to non-recursive
+      return List.generate(value.length, (j) => j)
+          .map((j) =>
+              (j % 2 == 0 ? 1 : -1) * value[0][j] * removeColAndRow(0, j).det())
+          .fold(0, (aggr, el) => aggr + el);
+    }
   }
 }

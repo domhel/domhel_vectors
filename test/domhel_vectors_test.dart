@@ -1,4 +1,4 @@
-import 'package:domhel_vectors/models/tensor.dart';
+import 'package:domhel_vectors/models/matrix.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -97,5 +97,22 @@ void main() {
         ],
       ),
     );
+  });
+
+  test('matrix determinant', () {
+    const A = Matrix([
+      [1, 0, -1],
+      [0, 2, 1],
+      [1, 3, 1],
+    ]);
+    expect(A.det(), 1);
+
+    const B = Matrix([
+      [-1, 2, 3, 4],
+      [2, -3, 4, 5],
+      [3, 4, -5, 6],
+      [4, 5, 6, -7]
+    ]);
+    expect(B.det(), -2816);
   });
 }
