@@ -100,7 +100,7 @@ extension MatrixOperations on Matrix {
     );
   }
 
-  num det() {
+  num get det {
     assert(dimension.isNotZero);
     assert(isSquare);
     if (!isSquare) {
@@ -113,8 +113,10 @@ extension MatrixOperations on Matrix {
       // to be changed to non-recursive
       return List.generate(value.length, (j) => j)
           .map((j) =>
-              (j % 2 == 0 ? 1 : -1) * value[0][j] * removeColAndRow(0, j).det())
+              (j % 2 == 0 ? 1 : -1) * value[0][j] * removeColAndRow(0, j).det)
           .fold(0, (aggr, el) => aggr + el);
     }
   }
+
+  bool get isInvertible => isSquare && det != 0;
 }

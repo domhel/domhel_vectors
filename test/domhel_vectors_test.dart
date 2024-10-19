@@ -105,7 +105,8 @@ void main() {
       [0, 2, 1],
       [1, 3, 1],
     ]);
-    expect(A.det(), 1);
+    expect(A.det, 1);
+    expect(A.isInvertible, true);
 
     const B = Matrix([
       [-1, 2, 3, 4],
@@ -113,6 +114,15 @@ void main() {
       [3, 4, -5, 6],
       [4, 5, 6, -7]
     ]);
-    expect(B.det(), -2816);
+    expect(B.det, -2816);
+    expect(B.isInvertible, true);
+
+    const C = Matrix([
+      [1, -4, 0],
+      [1, 4, 4],
+      [2, 2, 5]
+    ]);
+    expect(C.det, 0);
+    expect(C.isInvertible, false);
   });
 }
