@@ -42,6 +42,19 @@ class Matrix {
   @override
   // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
+
+  Matrix copyWithChangedElement((int i, int j) coords, num newValue) {
+    return Matrix(
+      List.generate(
+        value.length,
+        (i1) => List.generate(
+          value[0].length,
+          (j1) =>
+              (i1 == coords.$1 && j1 == coords.$2) ? newValue : value[i1][j1],
+        ),
+      ),
+    );
+  }
 }
 
 extension MatrixOperations on Matrix {
